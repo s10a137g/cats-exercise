@@ -30,7 +30,7 @@ object EitherTExercise extends App {
    */
   def parseDoubleAsync(s: String)(implicit ec: ExecutionContext): Future[Either[String, Double]] = {
     Future.successful(
-      s.toDoubleOption.toRight(s)
+      s.toDoubleOption.toRight(s"Don't parse double $s")
     )
   }
 
@@ -42,7 +42,7 @@ object EitherTExercise extends App {
    */
   def divideAsync(a: Double, b: Double)(implicit ec: ExecutionContext): Future[Either[String, Double]] = {
     // TODO: implement this method
-    ???
+      Future.successful(Either.cond(b != 0,  a /b, "Cannot divide by zero"))
   }
 
   /**
@@ -58,10 +58,10 @@ object EitherTExercise extends App {
     // TODO: complete the for‑comprehension below
     for {
       // convert parseDoubleAsync results into EitherT
-      a <- ???
-      b <- ???
+      a <- EitherT(parseDoubleAsync(inputA))
+      b <- EitherT(parseDoubleAsync(inputB))
       // lift the result of divideAsync into EitherT as well
-      result <- ???
+      result <- EitherT(divideAsync(a, b))
     } yield result
   }
 
@@ -74,10 +74,6 @@ object EitherTExercise extends App {
   // Uncomment and fill in the TODOs to run the program.
   val success = divisionProgramAsync("4", "2").value
   println(scala.concurrent.Await.result(success, 1.second)) // Should print Right(2.0)
-
-  /*
-
   val failure = divisionProgramAsync("a", "b").value
   println(scala.concurrent.Await.result(failure, 1.second)) // Should print Left("...error message...")
-  */
 }
