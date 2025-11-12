@@ -1,11 +1,9 @@
 package day3
 
 import cats.data.EitherT
-import cats.syntax.all._
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration.DurationInt
-import scala.util.Try
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * Day3 exercise skeleton for learning EitherT.
